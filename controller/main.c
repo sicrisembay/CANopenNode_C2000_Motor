@@ -6,6 +6,8 @@
  */
 #include "DSP2833x_Device.h"
 #include "stdint.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 
 extern unsigned int RamfuncsLoadStart;
@@ -175,6 +177,35 @@ void InitPieCtrl(void)
 }
 
 
+#define BLINKY_STACK_SIZE       (512)
+static TaskHandle_t blinkyTaskHandle = NULL;
+static StaticTask_t blinkyTaskStruct;
+static StackType_t blinkyStack[BLINKY_STACK_SIZE];
+
+static void blinkyTask(void * pvParam)
+{
+    TickType_t xLastWakeTime;
+
+    EALLOW;
+    SysCtrlRegs.PCLKCR3.bit.GPIOINENCLK = 1;
+    GpioCtrlRegs.GPBPUD.bit.GPIO34 = 1;
+    GpioCtrlRegs.GPBDIR.bit.GPIO34 = 1;
+    GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 0;
+    EDIS;
+
+    xLastWakeTime = xTaskGetTickCount();
+
+    while(1) {
+        /* ON LED */
+        GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1;
+        vTaskDelayUntil(&xLastWakeTime, 500);
+        /* OFF LED */
+        GpioDataRegs.GPBSET.bit.GPIO34 = 1;
+        vTaskDelayUntil(&xLastWakeTime, 1500);
+    }
+}
+
+
 void main(void)
 {
     InitPieCtrl();
@@ -194,6 +225,15 @@ void main(void)
 
     /* Configure Core Frequency */
     configure_core_pll(0xA);
+
+    blinkyTaskHandle = xTaskCreateStatic(blinkyTask,
+                                         "blinky",
+                                         BLINKY_STACK_SIZE,
+                                         (void *)0,
+                                         1,
+                                         blinkyStack,
+                                         &blinkyTaskStruct);
+    vTaskStartScheduler();
 
     while(1);
 }

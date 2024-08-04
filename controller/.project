@@ -31,9 +31,64 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>components/FreeRTOS</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>components/device_support</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/MemMang</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/portable/MemMang</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/croutine.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/croutine.c</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/event_groups.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/event_groups.c</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/include</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/include</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/list.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/list.c</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/portable</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/portable/CCS/C2000_C28x</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/queue.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/queue.c</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/stream_buffer.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/stream_buffer.c</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/tasks.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/tasks.c</locationURI>
+		</link>
+		<link>
+			<name>components/FreeRTOS/timers.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/timers.c</locationURI>
 		</link>
 		<link>
 			<name>components/device_support/include</name>
