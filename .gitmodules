@@ -1,0 +1,11 @@
+[submodule "components/c2000ware-core-sdk"]
+	path = components/c2000ware-core-sdk
+	url = https://github.com/TexasInstruments/c2000ware-core-sdk.git
+[submodule "components/c2000ware-FreeRTOS"]
+	path = components/c2000ware-FreeRTOS
+	url = https://github.com/sicrisembay/c2000ware-FreeRTOS.git
+	branch = f2833x
+[submodule "components/qpc"]
+	path = components/qpc
+	url = https://github.com/sicrisembay/qpc.git
+	branch = c2000_support
