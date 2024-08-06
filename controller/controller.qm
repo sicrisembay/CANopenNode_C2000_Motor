@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="6.2.0" links="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm.xsd">
+ <framework name="qpc"/>
+ <extern_package file="./controller/controller.qmp"/>
+</model>

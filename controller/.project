@@ -36,7 +36,17 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>components/Kconfig</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/Kconfig</locationURI>
+		</link>
+		<link>
 			<name>components/device_support</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>components/qpc</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -99,6 +109,31 @@
 			<name>components/device_support/source</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-core-sdk/device_support/f2833x/headers/source</locationURI>
+		</link>
+		<link>
+			<name>components/qpc/include</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/qpc/include</locationURI>
+		</link>
+		<link>
+			<name>components/qpc/port</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/qpc/ports/freertos</locationURI>
+		</link>
+		<link>
+			<name>components/qpc/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>components/qpc/src/qf</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/qpc/src/qf</locationURI>
+		</link>
+		<link>
+			<name>components/qpc/src/qs</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/qpc/src/qs</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

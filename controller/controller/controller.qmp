@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="controller" stereotype="0x02" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm.xsd">
+ <attribute name="ControllerSignals" type="enum" visibility="0x00" properties="0x00">
+  <code>{
+    TIMEOUT_SIG = Q_USER_SIG,
+    MAX_SIG
+};</code>
+ </attribute>
+ <attribute name="controllerQueueSto[5]" type="QEvt const *" visibility="0x02" properties="0x00"/>
+ <attribute name="controllerStack[configMINIMAL_STACK_SIZE]" type="StackType_t" visibility="0x02" properties="0x00"/>
+ <attribute name="AO_controller" type="QActive *" visibility="0x00" properties="0x00"/>
+ <operation name="controller_ctor" type="void" visibility="0x00" properties="0x00">
+  <code>controller * const me = &amp;controller_instance;
+AO_controller = &amp;(controller_instance.super);
+
+controller_init_dictionary(me);
+
+QActive_ctor(&amp;me-&gt;super, Q_STATE_CAST(&amp;controller_initial));
+QTimeEvt_ctorX(&amp;me-&gt;timeEvt, &amp;me-&gt;super, TIMEOUT_SIG, 0U);
+
+QActive_setAttr(AO_controller,
+                TASK_NAME_ATTR,
+                &quot;Controller&quot;);
+QACTIVE_START(AO_controller,
+              (QPrioSpec)1,
+              controllerQueueSto,
+              Q_DIM(controllerQueueSto),
+              controllerStack,
+              Q_DIM(controllerStack),
+              (QEvt *)0);
+</code>
+ </operation>
+ <class name="controller" superclass="qpc::QActive">
+  <attribute name="instance" type="controller" visibility="0x00" properties="0x01"/>
+  <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
+  <operation name="init_dictionary?def Q_SPY" type="void" visibility="0x02" properties="0x00">
+   <code>controller * instance = me;
+QS_OBJ_DICTIONARY(instance);
+
+QS_SIG_DICTIONARY(TIMEOUT_SIG, (void *)0);
+
+QS_FUN_DICTIONARY(&amp;controller_LED_OFF);
+QS_FUN_DICTIONARY(&amp;controller_LED_ON);</code>
+  </operation>
+  <statechart properties="0x00">
+   <initial target="../1">
+    <action>EALLOW;
+SysCtrlRegs.PCLKCR3.bit.GPIOINENCLK = 1;
+GpioCtrlRegs.GPBPUD.bit.GPIO34 = 1;
+GpioCtrlRegs.GPBDIR.bit.GPIO34 = 1;
+GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 0;
+EDIS;</action>
+    <initial_glyph conn="13,8,5,0,10,4">
+     <action box="0,-2,10,2"/>
+    </initial_glyph>
+   </initial>
+   <state name="LED_OFF">
+    <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, 1800, 0U);
+GpioDataRegs.GPBSET.bit.GPIO34 = 1;</entry>
+    <tran trig="TIMEOUT" target="../../2">
+     <tran_glyph conn="12,23,3,1,40,14,-4">
+      <action box="0,-2,10,2"/>
+     </tran_glyph>
+    </tran>
+    <state_glyph node="12,12,36,17">
+     <entry box="1,2,6,2"/>
+    </state_glyph>
+   </state>
+   <state name="LED_ON">
+    <entry>QTimeEvt_armX(&amp;me-&gt;timeEvt, 200, 0U);
+GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1;</entry>
+    <tran trig="TIMEOUT" target="../../1">
+     <tran_glyph conn="12,42,3,1,43,-22,-7">
+      <action box="0,-2,10,2"/>
+     </tran_glyph>
+    </tran>
+    <state_glyph node="12,33,36,14">
+     <entry box="1,2,6,2"/>
+    </state_glyph>
+   </state>
+   <state_diagram size="80,50"/>
+  </statechart>
+ </class>
+ <directory name=".">
+  <file name="controller.h">
+   <text>#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
+$declare(controller::AO_controller)
+
+$declare(controller::controller_ctor)
+
+#endif /* CONTROLLER_H */</text>
+  </file>
+  <file name="controller.c">
+   <text>#include &quot;qpc.h&quot;
+#include &quot;controller.h&quot;
+
+Q_DEFINE_THIS_FILE
+
+$define ${controller::ControllerSignals}
+$define ${controller::controllerQueueSto[5]}
+$define ${controller::controllerStack[configMINIMAL_STACK_SIZE]}
+
+$declare(controller::controller)
+
+$define(controller::AO_controller)
+$define(controller::controller_ctor)
+$define(controller::controller)
+</text>
+  </file>
+ </directory>
+</package>

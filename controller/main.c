@@ -4,17 +4,47 @@
  *  Created on: 4 Aug 2024
  *      Author: Sicris
  */
+#include "autoconf_post.h"
 #include "DSP2833x_Device.h"
 #include "stdint.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "qpc.h"
+#include "controller/controller.h"
 
+Q_DEFINE_THIS_FILE
 
 extern unsigned int RamfuncsLoadStart;
 extern unsigned int RamfuncsLoadEnd;
 extern unsigned int RamfuncsRunStart;
 extern unsigned int EbssStart;
 extern unsigned int EbssEnd;
+
+
+/*
+ * small size pool
+ */
+static QF_MPOOL_EL(QEvt) smallPoolSto[CONFIG_QPC_SMALL_MEMPOOL_ENTRY_COUNT];
+
+
+/*
+ * medium size pool
+ */
+typedef struct {
+    QEvt super;
+    uint8_t data[CONFIG_QPC_MEDIUM_MEMPOOL_ENTRY_SIZE];
+} medPool;
+static QF_MPOOL_EL(medPool) medPoolSto[CONFIG_QPC_MEDIUM_MEMPOOL_ENTRY_COUNT];
+
+
+/*
+ * large size pool
+ */
+typedef struct {
+    QEvt super;
+    uint8_t data[CONFIG_QPC_LARGE_MEMPOOL_ENTRY_SIZE];
+} largePool;
+static QF_MPOOL_EL(largePool) largePoolSto[CONFIG_QPC_LARGE_MEMPOOL_ENTRY_COUNT];
 
 
 static void configure_core_pll(uint16_t val)
@@ -177,35 +207,6 @@ void InitPieCtrl(void)
 }
 
 
-#define BLINKY_STACK_SIZE       (512)
-static TaskHandle_t blinkyTaskHandle = NULL;
-static StaticTask_t blinkyTaskStruct;
-static StackType_t blinkyStack[BLINKY_STACK_SIZE];
-
-static void blinkyTask(void * pvParam)
-{
-    TickType_t xLastWakeTime;
-
-    EALLOW;
-    SysCtrlRegs.PCLKCR3.bit.GPIOINENCLK = 1;
-    GpioCtrlRegs.GPBPUD.bit.GPIO34 = 1;
-    GpioCtrlRegs.GPBDIR.bit.GPIO34 = 1;
-    GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 0;
-    EDIS;
-
-    xLastWakeTime = xTaskGetTickCount();
-
-    while(1) {
-        /* ON LED */
-        GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1;
-        vTaskDelayUntil(&xLastWakeTime, 500);
-        /* OFF LED */
-        GpioDataRegs.GPBSET.bit.GPIO34 = 1;
-        vTaskDelayUntil(&xLastWakeTime, 1500);
-    }
-}
-
-
 void main(void)
 {
     InitPieCtrl();
@@ -226,14 +227,28 @@ void main(void)
     /* Configure Core Frequency */
     configure_core_pll(0xA);
 
-    blinkyTaskHandle = xTaskCreateStatic(blinkyTask,
-                                         "blinky",
-                                         BLINKY_STACK_SIZE,
-                                         (void *)0,
-                                         1,
-                                         blinkyStack,
-                                         &blinkyTaskStruct);
-    vTaskStartScheduler();
+    /* Initialize QF framework */
+    QF_init();
+#if defined(Q_SPY)
+    if(QS_INIT((void*)0) == 0U) {
+        Q_ERROR();
+    }
+#endif
+
+
+    /* Initialize Event Pool
+     * Note: QF can manage up to three event pools (e.g., small, medium, and large events).
+     * An application may call this function up to three times to initialize up to three event
+     * pools in QF.  The subsequent calls to QF_poolInit() function must be made with
+     * progressively increasing values of the evtSize parameter.
+     */
+    QF_poolInit(smallPoolSto, sizeof(smallPoolSto), sizeof(smallPoolSto[0]));
+    QF_poolInit(medPoolSto, sizeof(medPoolSto), sizeof(medPoolSto[0]));
+    QF_poolInit(largePoolSto, sizeof(largePoolSto), sizeof(largePoolSto[0]));
+
+    controller_ctor();
+
+    QF_run();
 
     while(1);
 }

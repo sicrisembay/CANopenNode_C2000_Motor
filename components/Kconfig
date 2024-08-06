@@ -1,0 +1,44 @@
+menu "Components"
+  menu "QPC Configuration"
+    menu "Memory Pool"
+      menu "Small Memory Pool"
+        config QPC_SMALL_MEMPOOL_ENTRY_COUNT
+          int "Count"
+          default 32
+      endmenu
+      menu "Medium Memory Pool"
+        config QPC_MEDIUM_MEMPOOL_ENTRY_SIZE
+          int "Size"
+          default 16
+        config QPC_MEDIUM_MEMPOOL_ENTRY_COUNT
+          int "Count"
+          default 32
+      endmenu
+      menu "Large Memory Pool"
+        config QPC_LARGE_MEMPOOL_ENTRY_SIZE
+          int "Size"
+          default 64
+        config QPC_LARGE_MEMPOOL_ENTRY_COUNT
+          int "Count"
+          default 32
+      endmenu
+    endmenu # Memory Pool
+    menuconfig QPC_QSPY_ENABLE
+      bool "Q-Spy"
+      default y
+      if QPC_QSPY_ENABLE
+          config QPSY_WORKER_TASK_PRIORITY
+              int "Priority"
+              default 1
+          config QSPY_WORKER_STACK_SIZE
+              int "Stack Size"
+              default 512
+          config QSPY_TX_BUFFER_SIZE
+              int "Tx Size"
+              default 256
+          config QSPY_RX_BUFFER_SIZE
+              int "Rx Size"
+              default 256
+      endif
+  endmenu # QPC Configuration
+endmenu #"Components"
