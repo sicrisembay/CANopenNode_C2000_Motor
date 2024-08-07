@@ -34,11 +34,11 @@ typedef enum {
 
 void UART_init(void);
 bool UART_init_done(void);
-bool UART_txBufferEmpty(UART_ID_T id);
-uint16_t UART_send(UART_ID_T id, const uint8_t * pBuf, const uint16_t count);
-uint16_t UART_sendFromISR(UART_ID_T id, const uint8_t * pBuf, const uint16_t count);
-uint16_t UART_receive(const UART_ID_T id, uint8_t * pBuf, const uint16_t count, const TickType_t xTicksToWait);
-uint16_t UART_receiveFromISR(const UART_ID_T id, uint8_t * pBuf, const uint16_t count);
+bool UART_txBufferEmpty(const UART_ID_T id);
+uint16_t UART_send(const UART_ID_T id, const uint8_t * pBuf, const uint16_t count);
+uint16_t UART_sendFromISR(const UART_ID_T id, const uint8_t * pBuf, const uint16_t count);
+uint16_t UART_receive(const UART_ID_T id, uint8_t * const pBuf, const uint16_t count, const TickType_t xTicksToWait);
+uint16_t UART_receiveFromISR(const UART_ID_T id, uint8_t * const pBuf, const uint16_t count);
 
 
 #endif /* CONFIG_USE_UART */

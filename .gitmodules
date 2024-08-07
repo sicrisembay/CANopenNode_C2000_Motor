@@ -9,7 +9,7 @@
 	path = components/qpc
 	url = https://github.com/sicrisembay/qpc.git
 	branch = c2000_support
-[submodule "components/CANopenNode_C2000"]
-	path = components/CANopenNode_C2000
-	url = https://github.com/sicrisembay/CANopenNode_C2000.git
-	branch = main
+[submodule "components/CANopen/CANopenNode"]
+	path = components/CANopen/CANopenNode
+	url = https://github.com/sicrisembay/CANopenNode.git
+	branch = C2000_port

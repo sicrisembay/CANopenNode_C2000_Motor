@@ -339,7 +339,7 @@ bool UART_init_done(void)
 }
 
 
-bool UART_txBufferEmpty(UART_ID_T id)
+bool UART_txBufferEmpty(const UART_ID_T id)
 {
     bool retval = false;
     if(id < N_UART) {
@@ -349,7 +349,7 @@ bool UART_txBufferEmpty(UART_ID_T id)
 }
 
 
-static uint16_t Send(UART_ID_T id, const uint8_t * pBuf, const uint16_t count, const bool bFromISR)
+static uint16_t Send(const UART_ID_T id, const uint8_t * pBuf, const uint16_t count, const bool bFromISR)
 {
     uint16_t j = 0;
     bool fifoFirst = false;
@@ -402,7 +402,7 @@ static uint16_t Send(UART_ID_T id, const uint8_t * pBuf, const uint16_t count, c
 }
 
 
-static uint16_t Receive(const UART_ID_T id, uint8_t * pBuf, const uint16_t size, const bool bFromISR, const TickType_t xTicksToWait)
+static uint16_t Receive(const UART_ID_T id, uint8_t * const pBuf, const uint16_t size, const bool bFromISR, const TickType_t xTicksToWait)
 {
     size_t count = 0;
 
@@ -424,25 +424,25 @@ static uint16_t Receive(const UART_ID_T id, uint8_t * pBuf, const uint16_t size,
     return count;
 }
 
-uint16_t UART_send(UART_ID_T id, const uint8_t * pBuf, const uint16_t count)
+uint16_t UART_send(const UART_ID_T id, const uint8_t * pBuf, const uint16_t count)
 {
     return Send(id, pBuf, count, false);
 }
 
 
-uint16_t UART_sendFromISR(UART_ID_T id, const uint8_t * pBuf, const uint16_t count)
+uint16_t UART_sendFromISR(const UART_ID_T id, const uint8_t * pBuf, const uint16_t count)
 {
     return Send(id, pBuf, count, true);
 }
 
 
-uint16_t UART_receive(const UART_ID_T id, uint8_t * pBuf, const uint16_t count, const TickType_t xTicksToWait)
+uint16_t UART_receive(const UART_ID_T id, uint8_t * const pBuf, const uint16_t count, const TickType_t xTicksToWait)
 {
     return Receive(id, pBuf, count, false, xTicksToWait);
 }
 
 
-uint16_t UART_receiveFromISR(const UART_ID_T id, uint8_t * pBuf, const uint16_t count)
+uint16_t UART_receiveFromISR(const UART_ID_T id, uint8_t * const pBuf, const uint16_t count)
 {
     return Receive(id, pBuf, count, true, 0);
 }

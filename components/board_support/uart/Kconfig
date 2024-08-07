@@ -1,11 +1,11 @@
 menuconfig USE_UART
-    bool "Enable UART"
+    bool "UART"
     default y
 
     if USE_UART
         menu "UART-A Configuration"
             config ENABLE_UARTA
-                bool "Enable UARTA"
+                bool "UART-A"
                 default y
 
             if ENABLE_UARTA
@@ -43,7 +43,7 @@ menuconfig USE_UART
 
         menu "UART-B Configuration"
             config ENABLE_UARTB
-                bool "Enable UARTB"
+                bool "UART-B"
                 default n
 
             if ENABLE_UARTB
@@ -93,7 +93,7 @@ menuconfig USE_UART
 
         menu "UART-C Configuration"
             config ENABLE_UARTC
-                bool "Enable UARTC"
+                bool "UART-C"
                 default n
 
             if ENABLE_UARTC
