@@ -207,20 +207,28 @@ void InitPieCtrl(void)
 }
 
 
-void main(void)
+int _system_pre_init(void)
 {
-    InitPieCtrl();
-
     /*
      * Zero ebss section
      */
     memset(&EbssStart, 0, &EbssEnd - &EbssStart);
 
+    return 1;
+}
+
+void _system_post_cinit(void)
+{
     /*
      * Copy ramfuncs section
      */
     memcpy(&RamfuncsRunStart, &RamfuncsLoadStart,
             &RamfuncsLoadEnd - &RamfuncsLoadStart);
+}
+
+void main(void)
+{
+    InitPieCtrl();
 
     InitFlashWaitState();
 

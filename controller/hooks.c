@@ -6,6 +6,7 @@
  */
 #include "autoconf_post.h"
 #include "qpc.h"
+#include "uart/uart.h"
 
 uint16_t const l_TickHook = 0;
 
@@ -76,12 +77,12 @@ void Q_onAssert(char const *module, int loc)
 
 
 #if CONFIG_QPC_QSPY_ENABLE
-#define QSPY_RX_NOTIFY_TIMEOUT_MS   (2)
-#define QSPY_RX_NOTIFY_TIMEOUT      (QSPY_RX_NOTIFY_TIMEOUT_MS / portTICK_PERIOD_MS)
+#define QSPY_RX_NOTIFY_TIMEOUT      (CONFIG_QSPY_RX_TIMEOUT_MS / portTICK_PERIOD_MS)
 
 static StaticTask_t xQspyWorkerTCB;
 static StackType_t xQspyWorkerStackSto[CONFIG_QSPY_WORKER_STACK_SIZE];
 static TaskHandle_t xQspyWorkerTaskHandle = NULL;
+static UART_ID_T QspyUartId;
 
 static void QS_workerTask(void * pvParam)
 {
@@ -91,29 +92,40 @@ static void QS_workerTask(void * pvParam)
     uint8_t rxBuf[16] = {0};
 
     while(1) {
-//        rxLen = BSP_UART_receive(rxBuf, sizeof(rxBuf), QSPY_RX_NOTIFY_TIMEOUT);
+        rxLen = UART_receive(QspyUartId, rxBuf, sizeof(rxBuf), QSPY_RX_NOTIFY_TIMEOUT);
         if(rxLen > 0) {
             for(uint16_t i = 0; i < rxLen; i++) {
                 QS_RX_PUT((rxBuf[i] & 0x00FF));
             }
             QS_rxParse();
         }
-//        txLen = BSP_UART_TX_FIFO_SIZE;
+        txLen = UART_FIFO_SZ;
         taskENTER_CRITICAL();
         pBlock = QS_getBlock(&txLen);
         taskEXIT_CRITICAL();
         if(txLen > 0) {
-//            BSP_UART_send(pBlock, txLen);
+            UART_send(QspyUartId, pBlock, txLen);
         }
     }
 }
 uint8_t QS_onStartup(void const *arg)
 {
     (void)arg;  // unused parameter
+
+#if CONFIG_QSPY_USE_UART_A
+    QspyUartId = UART_A;
+#elif CONFIG_QSPY_USE_UART_B
+    QspyUartId = UART_B;
+#elif CONFIG_QSPY_USE_UART_C
+    QspyUartId = UART_C;
+#else
+    QspyUartId = N_UART;    // invalid
+#endif
+
     if(NULL == xQspyWorkerTaskHandle) {
         QS_initBuf(qsTxBuf, sizeof(qsTxBuf));
         QS_rxInitBuf(qsRxBuf, sizeof(qsRxBuf));
-//        BSP_UART_init();
+        UART_init();
         xQspyWorkerTaskHandle = xTaskCreateStatic(
                 QS_workerTask,
                 "QSpyWorker",
@@ -147,15 +159,17 @@ void QS_onFlush(void)
     uint16_t txLen;
 
     while(1) {
-//        txLen = BSP_UART_TX_FIFO_SIZE;
+        txLen = UART_FIFO_SZ;
         taskENTER_CRITICAL();
         pBlock = QS_getBlock(&txLen);
         taskEXIT_CRITICAL();
         if(txLen == 0) {
             break;
         }
-//        (void)BSP_UART_send(pBlock, txLen);
-//        while(!BSP_UART_sendBufferEmpty());
+        if(UART_init_done()) {
+            UART_send(QspyUartId, pBlock, txLen);
+            while(!UART_txBufferEmpty(QspyUartId));
+        }
     }
 
 }

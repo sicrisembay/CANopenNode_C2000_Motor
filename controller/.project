@@ -41,6 +41,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/components/Kconfig</locationURI>
 		</link>
 		<link>
+			<name>components/board_support</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/board_support</locationURI>
+		</link>
+		<link>
 			<name>components/device_support</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>

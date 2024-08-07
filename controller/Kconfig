@@ -1,7 +1,3 @@
 mainmenu "Controller Configuration"
 
-config TEST
-    bool "Test"
-    default n
-
 rsource "../components/Kconfig"

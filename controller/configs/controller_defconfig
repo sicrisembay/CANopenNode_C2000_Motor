@@ -1,1 +1,81 @@
-CONFIG_TEST=y
+
+#
+# Components
+#
+
+#
+# Board Support
+#
+# CONFIG_CRYSTAL_20MHZ is not set
+CONFIG_CRYSTAL_30MHZ=y
+CONFIG_CORE_FREQ_150MHZ=y
+CONFIG_SYSTEM_FREQ_MHZ=150
+CONFIG_USE_UART=y
+
+#
+# UART-A Configuration
+#
+CONFIG_ENABLE_UARTA=y
+CONFIG_UARTA_TX_GPIO29=y
+# CONFIG_UARTA_TX_GPIO35 is not set
+CONFIG_UARTA_TX_GPIO=29
+CONFIG_UARTA_RX_GPIO28=y
+# CONFIG_UARTA_RX_GPIO36 is not set
+CONFIG_UARTA_RX_GPIO=28
+CONFIG_BAUDRATE_UARTA=115200
+# end of UART-A Configuration
+
+#
+# UART-B Configuration
+#
+# CONFIG_ENABLE_UARTB is not set
+# end of UART-B Configuration
+
+#
+# UART-C Configuration
+#
+# CONFIG_ENABLE_UARTC is not set
+# end of UART-C Configuration
+
+CONFIG_TX_QUEUE_BUFF_SZ=256
+CONFIG_RX_QUEUE_BUFF_SZ=128
+# end of Board Support
+
+#
+# QPC Configuration
+#
+
+#
+# Memory Pool
+#
+
+#
+# Small Memory Pool
+#
+CONFIG_QPC_SMALL_MEMPOOL_ENTRY_COUNT=32
+# end of Small Memory Pool
+
+#
+# Medium Memory Pool
+#
+CONFIG_QPC_MEDIUM_MEMPOOL_ENTRY_SIZE=16
+CONFIG_QPC_MEDIUM_MEMPOOL_ENTRY_COUNT=32
+# end of Medium Memory Pool
+
+#
+# Large Memory Pool
+#
+CONFIG_QPC_LARGE_MEMPOOL_ENTRY_SIZE=64
+CONFIG_QPC_LARGE_MEMPOOL_ENTRY_COUNT=32
+# end of Large Memory Pool
+# end of Memory Pool
+
+CONFIG_QPC_QSPY_ENABLE=y
+CONFIG_QSPY_USE_UART_A=y
+CONFIG_QPSY_WORKER_TASK_PRIORITY=1
+CONFIG_QSPY_WORKER_STACK_SIZE=512
+CONFIG_QSPY_TX_BUFFER_SIZE=256
+CONFIG_QSPY_RX_BUFFER_SIZE=256
+CONFIG_QSPY_RX_TIMEOUT_MS=2
+# end of QPC Configuration
+# end of Components

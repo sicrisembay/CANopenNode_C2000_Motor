@@ -1,4 +1,6 @@
 menu "Components"
+  rsource "board_support/Kconfig"
+
   menu "QPC Configuration"
     menu "Memory Pool"
       menu "Small Memory Pool"
@@ -27,6 +29,19 @@ menu "Components"
       bool "Q-Spy"
       default y
       if QPC_QSPY_ENABLE
+          choice
+              prompt "Communication Channel"
+              config QSPY_USE_UART_A
+                  depends on ENABLE_UARTA
+                  bool "UART-A"
+              config QSPY_USE_UART_B
+                  depends on ENABLE_UARTB
+                  bool "UART-B"
+              config QSPY_USE_UART_C
+                  depends on ENABLE_UARTC
+                  bool "UART-A"
+          endchoice
+  
           config QPSY_WORKER_TASK_PRIORITY
               int "Priority"
               default 1
@@ -39,6 +54,9 @@ menu "Components"
           config QSPY_RX_BUFFER_SIZE
               int "Rx Size"
               default 256
+          config QSPY_RX_TIMEOUT_MS
+              int "Rx Timeout (millisecond)"
+              default 2
       endif
   endmenu # QPC Configuration
 endmenu #"Components"

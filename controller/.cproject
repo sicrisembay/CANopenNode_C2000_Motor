@@ -45,6 +45,7 @@
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/FreeRTOS/portable}"/>
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/qpc/include}"/>
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/qpc/port}"/>
+									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/board_support}"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEBUGGING_MODEL.876192467" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DIAG_WARNING.617504024" name="Treat diagnostic &lt;id&gt; as warning (--diag_warning, -pdsw)" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DIAG_WARNING" valueType="stringList">

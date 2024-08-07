@@ -1,0 +1,28 @@
+menu "Board Support"
+
+    choice
+        prompt "Crystal Frequency"
+        default CRYSTAL_30MHZ
+        config CRYSTAL_20MHZ
+            bool "20MHz"
+        config CRYSTAL_30MHZ
+            bool "30MHz"
+    endchoice
+
+    choice
+        prompt "Core Frequency"
+        default CORE_FREQ_150MHZ
+        config CORE_FREQ_100MHZ
+            depends on CRYSTAL_20MHZ
+            bool "100MHz"
+        config CORE_FREQ_150MHZ
+            bool "150MHz"
+    endchoice
+
+    config SYSTEM_FREQ_MHZ
+        int
+        default 100 if CORE_FREQ_100MHZ
+        default 150 if CORE_FREQ_150MHZ
+
+rsource "uart/Kconfig"
+endmenu # Board Support
