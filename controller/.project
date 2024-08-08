@@ -31,6 +31,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>components/CANopen</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>components/FreeRTOS</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -54,6 +59,11 @@
 			<name>components/qpc</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>components/CANopen/CANopenNode</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/CANopen/CANopenNode</locationURI>
 		</link>
 		<link>
 			<name>components/FreeRTOS/MemMang</name>

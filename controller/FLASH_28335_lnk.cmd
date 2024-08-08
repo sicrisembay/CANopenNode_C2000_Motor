@@ -82,27 +82,26 @@ PAGE 1 :
 SECTIONS
 {
    .cinit           : > FLASH,     PAGE = 0
-   .pinit           : > FLASH,     PAGE = 0
+   .init_array      : > FLASH,     PAGE = 0
    .text            : > FLASH,     PAGE = 0
    codestart        : > BEGIN,     PAGE = 0
    ramfuncs         : LOAD = FLASH PAGE = 0,
                       RUN = RAML0_2   PAGE = 0,
-                      LOAD_START(_RamfuncsLoadStart),
-                      LOAD_SIZE(_RamfuncsLoadSize),
-                      LOAD_END(_RamfuncsLoadEnd),
-                      RUN_START(_RamfuncsRunStart)
+                      LOAD_START(RamfuncsLoadStart),
+                      LOAD_SIZE(RamfuncsLoadSize),
+                      LOAD_END(RamfuncsLoadEnd),
+                      RUN_START(RamfuncsRunStart)
 
    csmpasswds       : > CSM_PWL    PAGE = 0
    csm_rsvd         : > CSM_RSVD   PAGE = 0
 
    .stack           : > RAMM0_1,   PAGE = 1
-   .ebss            : > RAML3_7,   PAGE = 1,
-                        START(_EbssStart),
-                        END(_EbssEnd)
+   .bss             : > RAML3_7,   PAGE = 1
 
-   .esysmem         : > RAML3_7,   PAGE = 1
+   .sysmem          : > RAML3_7,   PAGE = 1
+   .data            : > RAML3_7    PAGE = 1
 
-   .econst          : > FLASH,     PAGE = 0
+   .const           : > FLASH,     PAGE = 0
    .switch          : > FLASH,     PAGE = 0
 
    IQmath           : > FLASH,     PAGE = 0

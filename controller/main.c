@@ -17,8 +17,6 @@ Q_DEFINE_THIS_FILE
 extern unsigned int RamfuncsLoadStart;
 extern unsigned int RamfuncsLoadEnd;
 extern unsigned int RamfuncsRunStart;
-extern unsigned int EbssStart;
-extern unsigned int EbssEnd;
 
 
 /*
@@ -206,16 +204,6 @@ void InitPieCtrl(void)
     PieCtrlRegs.PIECTRL.bit.ENPIE = 1;
 }
 
-
-int _system_pre_init(void)
-{
-    /*
-     * Zero ebss section
-     */
-    memset(&EbssStart, 0, &EbssEnd - &EbssStart);
-
-    return 1;
-}
 
 void _system_post_cinit(void)
 {

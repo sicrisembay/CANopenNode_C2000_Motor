@@ -10,6 +10,7 @@ WD_DISABLE  .set    1       ;set to 1 to disable WD, else set to 0
 ***********************************************************************
 
     .sect "codestart"
+    .retain
 
 code_start:
     .if WD_DISABLE == 1
