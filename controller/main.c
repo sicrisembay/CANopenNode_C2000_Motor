@@ -11,6 +11,7 @@
 #include "task.h"
 #include "qpc.h"
 #include "controller/controller.h"
+#include "CO_c28x.h"
 
 Q_DEFINE_THIS_FILE
 
@@ -243,6 +244,7 @@ void main(void)
     QF_poolInit(largePoolSto, sizeof(largePoolSto), sizeof(largePoolSto[0]));
 
     controller_ctor();
+    CANOPEN_c28x_init();
 
     QF_run();
 

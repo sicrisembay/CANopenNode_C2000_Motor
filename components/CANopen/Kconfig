@@ -1,0 +1,183 @@
+menuconfig USE_CANOPEN
+    bool "CANopen"
+    default n
+
+    if USE_CANOPEN
+        menu "Task Property"
+            menu "CO main"
+                config CANOPEN_MAIN_TASK_PRIORITY
+                    int "Priority"
+                    default 1
+                config CANOPEN_MAIN_TASK_STACK
+                    int "Stack"
+                    default 640
+                config CANOPEN_MAIN_INTERVAL_MS
+                    int "Execution Interval (ms)"
+                    default 10
+            endmenu
+            menu "CO timer"
+                config CANOPEN_TIMER_TASK_PRIORITY
+                    int "Priority"
+                    default 2
+                config CANOPEN_TIMER_TASK_STACK
+                    int "Stack"
+                    default 512
+                config CANOPEN_TIMER_INTERVAL_MS
+                    int "Execution Interval (ms)"
+                    default 5
+            endmenu
+        endmenu # "Task Property"
+
+        menu "CAN Configurtion"
+            choice
+                prompt "CAN Peripheral"
+                config CANOPEN_USE_CAN_A
+                    bool "CAN-A"
+                config CANOPEN_USE_CAN_B
+                    bool "CAN-B"
+            endchoice
+
+            if (CANOPEN_USE_CAN_A || CANOPEN_USE_CAN_B)
+                choice
+                    prompt "TX GPIO"
+                    default CANOPEN_TX_GPIO19 if CANOPEN_USE_CAN_A
+                    default CANOPEN_TX_GPIO20 if CANOPEN_USE_CAN_B
+                    config CANOPEN_TX_GPIO19
+                        depends on CANOPEN_USE_CAN_A
+                        bool "GPIO19"
+                    config CANOPEN_TX_GPIO31
+                        depends on CANOPEN_USE_CAN_A
+                        bool "GPIO31"
+                    config CANOPEN_TX_GPIO8
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO8"
+                    config CANOPEN_TX_GPIO12
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO12"
+                    config CANOPEN_TX_GPIO16
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO16"
+                    config CANOPEN_TX_GPIO20
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO20"
+                endchoice
+
+                choice
+                    prompt "RX GPIO"
+                    default CANOPEN_RX_GPIO18 if CANOPEN_USE_CAN_A
+                    default CANOPEN_RX_GPIO21 if CANOPEN_USE_CAN_B
+                    config CANOPEN_RX_GPIO18
+                        depends on CANOPEN_USE_CAN_A
+                        bool "GPIO18"
+                    config CANOPEN_RX_GPIO30
+                        depends on CANOPEN_USE_CAN_A
+                        bool "GPIO30"
+                    config CANOPEN_RX_GPIO10
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO10"
+                    config CANOPEN_RX_GPIO13
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO13"
+                    config CANOPEN_RX_GPIO17
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO17"
+                    config CANOPEN_RX_GPIO21
+                        depends on CANOPEN_USE_CAN_B
+                        bool "GPIO21"
+                endchoice
+
+                menu "Supported Bit Rate"
+                    config CANOPEN_BITRATE_20KBPS
+                        bool "20 kbps"
+                        default y
+                    config CANOPEN_BITRATE_50KBPS
+                        bool "50 kbps"
+                        default y
+                    config CANOPEN_BITRATE_125KBPS
+                        bool "125 kbps"
+                        default y
+                    config CANOPEN_BITRATE_250KBPS
+                        bool "250 kbps"
+                        default y
+                    config CANOPEN_BITRATE_500KBPS
+                        bool "500 kbps"
+                        default y
+                    config CANOPEN_BITRATE_1000KBPS
+                        bool "1000 kbps"
+                        default y
+                endmenu # "Supported Bit Rate"
+
+                choice
+                    prompt "Default Bit Rate"
+                    default CANOPEN_DEFAULT_BITRATE_1000KBPS
+                    config CANOPEN_DEFAULT_BITRATE_20KBPS
+                        depends on CANOPEN_BITRATE_20KBPS
+                        bool "20 kbps"
+                    config CANOPEN_DEFAULT_BITRATE_50KBPS
+                        depends on CANOPEN_BITRATE_50KBPS
+                        bool "50 kbps"
+                    config CANOPEN_DEFAULT_BITRATE_125KBPS
+                        depends on CANOPEN_BITRATE_125KBPS
+                        bool "125 kbps"
+                    config CANOPEN_DEFAULT_BITRATE_250KBPS
+                        depends on CANOPEN_BITRATE_250KBPS
+                        bool "250 kbps"
+                    config CANOPEN_DEFAULT_BITRATE_500KBPS
+                        depends on CANOPEN_BITRATE_500KBPS
+                        bool "500 kbps"
+                    config CANOPEN_DEFAULT_BITRATE_1000KBPS
+                        depends on CANOPEN_BITRATE_1000KBPS
+                        bool "1000 kbps"
+                endchoice # "Default Bit Rate"
+
+                config CANOPEN_DEFAULT_BITRATE
+                    int
+                    default 20 if CANOPEN_DEFAULT_BITRATE_20KBPS
+                    default 50 if CANOPEN_DEFAULT_BITRATE_50KBPS
+                    default 125 if CANOPEN_DEFAULT_BITRATE_125KBPS
+                    default 250 if CANOPEN_DEFAULT_BITRATE_250KBPS
+                    default 500 if CANOPEN_DEFAULT_BITRATE_500KBPS
+                    default 1000 if CANOPEN_DEFAULT_BITRATE_1000KBPS
+                    default 1000
+            endif
+        endmenu # "CAN Configurtion"
+
+        menu "CANopen Configuration"
+            config CANOPEN_DEFAULT_NODEID
+                hex "Node ID"
+                range 0x01 0xFF
+                default 0xFF
+            config CANOPEN_LSS_SLAVE_ENABLE
+                bool "LSS Slave"
+                default y
+            menuconfig CANOPEN_TIME_ENABLE
+                bool "Timestamp Protocol"
+                default y
+                if CANOPEN_TIME_ENABLE
+                    config CANOPEN_TIME_PRODUCER
+                        bool "Enable Time Producer"
+                        default n
+                    config CANOPEN_TIME_PRODUCER_INTERVAL_MS
+                        depends on CANOPEN_TIME_PRODUCER
+                        int "Time producer interval (ms)"
+                        default 10000
+                endif # CANOPEN_TIME_ENABLE
+            menuconfig CANOPEN_SYNC_ENABLE
+                bool "Sync Protocol"
+                default y
+                if CANOPEN_SYNC_ENABLE
+                    config CANOPEN_SYNC_PRODUCER
+                        bool "Enable Sync Producer"
+                        default n
+                endif # CANOPEN_SYNC_ENABLE
+            config CANOPEN_FIRST_HB_TIME
+                int "First Heartbeat Time (ms)"
+                default 500
+            config CANOPEN_SDO_SRV_TIMEOUT
+                int "SDO Server Timeout (ms)"
+                default 1000
+            config CANOPEN_SDO_CLIENT_TIMEOUT
+                int "SDO Client Timeout (ms)"
+                default 500
+        endmenu # "CANopen Configuration"
+    endif # USE_CANOPEN

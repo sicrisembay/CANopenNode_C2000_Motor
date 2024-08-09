@@ -1,5 +1,6 @@
 menu "Components"
   rsource "board_support/Kconfig"
+  rsource "CANopen/Kconfig"
 
   menu "QPC Configuration"
     menu "Memory Pool"

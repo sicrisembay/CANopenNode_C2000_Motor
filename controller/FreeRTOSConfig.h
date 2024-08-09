@@ -8,6 +8,9 @@
 #ifndef FREERTOSCONFIG_H_
 #define FREERTOSCONFIG_H_
 
+#include "stdint.h"
+#include "stdbool.h"
+
 //--------------------------------------------------------------------------------------------------
 // Application specific definitions.
 //
@@ -34,7 +37,9 @@
 #define configIDLE_SHOULD_YIELD             0
 #define configCHECK_FOR_STACK_OVERFLOW      0
 #define configSUPPORT_STATIC_ALLOCATION     1
-#define configSUPPORT_DYNAMIC_ALLOCATION    1
+#define configSUPPORT_DYNAMIC_ALLOCATION    0
+#define configUSE_MUTEXES                   1
+#define configUSE_RECURSIVE_MUTEXES         1
 
 // Set the following definitions to 1 to include the API function, or zero
 // to exclude the API function.
@@ -47,5 +52,11 @@
 #define INCLUDE_vTaskDelayUntil             1
 #define INCLUDE_vTaskDelay                  1
 #define INCLUDE_xTaskGetCurrentTaskHandle   1
+
+extern void FREERTOS_configAssert(const bool cond, char const * module, const uint16_t line);
+
+#include "string.h"
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define configASSERT(x)     FREERTOS_configAssert(x, __FILENAME__, __LINE__)
 
 #endif /* FREERTOSCONFIG_H_ */

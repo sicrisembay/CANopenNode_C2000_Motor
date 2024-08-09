@@ -58,6 +58,15 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
 }
 
 
+void FREERTOS_configAssert(const bool cond, char const * module, const uint16_t line)
+{
+    if(!cond) {
+        while(1) {
+
+        }
+    }
+}
+
 void QF_onStartup(void)
 {
 }
