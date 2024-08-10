@@ -13,3 +13,6 @@
 	path = components/CANopen/CANopenNode
 	url = https://github.com/sicrisembay/CANopenNode.git
 	branch = C2000_port
+[submodule "components/C2000ware-motor-control-sdk"]
+	path = components/C2000ware-motor-control-sdk
+	url = https://github.com/sicrisembay/C2000ware-motor-control-sdk.git
