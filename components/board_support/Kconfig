@@ -25,4 +25,6 @@ menu "Board Support"
         default 150 if CORE_FREQ_150MHZ
 
 rsource "uart/Kconfig"
+rsource "epwm/Kconfig"
+
 endmenu # Board Support

@@ -1,0 +1,27 @@
+menuconfig USE_EPWM
+    bool "EPWM"
+    default y
+
+    if USE_EPWM
+        choice
+            default PWM_FREQUENCY_30KHZ
+            prompt "PWM Frequency"
+            config PWM_FREQUENCY_10KHZ
+                bool "10kHz"
+            config PWM_FREQUENCY_20KHZ
+                bool "20kHz"
+            config PWM_FREQUENCY_30KHZ
+                bool "30kHz"
+        endchoice
+        config PWM_FREQ_PRESCALE
+            int
+            default 1 if PWM_FREQUENCY_10KHZ
+            default 2 if PWM_FREQUENCY_20KHZ
+            default 3 if PWM_FREQUENCY_30KHZ
+        config FLOAT_VALUE_PWM_INT_PERIOD
+            string
+            default "0.0001f"
+        config PWM_DEADBAND
+            int "PWM Dead-band (Unit: ns)"
+            default 500
+    endif # USE_EPWM

@@ -111,6 +111,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-FreeRTOS/kernel/FreeRTOS/Source/timers.c</locationURI>
 		</link>
 		<link>
+			<name>components/device_support/common</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>components/device_support/include</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-core-sdk/device_support/f2833x/headers/include</locationURI>
@@ -134,6 +139,11 @@
 			<name>components/qpc/src</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>components/device_support/common/include</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/components/c2000ware-core-sdk/device_support/f2833x/common/include</locationURI>
 		</link>
 		<link>
 			<name>components/qpc/src/qf</name>

@@ -2,7 +2,7 @@
  * board.c
  *
  *  Created on: 9 Aug 2024
- *      Author: H255182
+ *      Author: Sicris
  */
 
 #include "DSP2833x_Device.h"

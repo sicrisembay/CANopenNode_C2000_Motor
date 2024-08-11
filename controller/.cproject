@@ -41,6 +41,7 @@
 									<listOptionValue builtIn="false" value="${CG_TOOL_ROOT}/include"/>
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/configs/generated}"/>
 									<listOptionValue builtIn="false" value="${C2000WARE_DEVICE_DIR}/headers/include"/>
+									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/device_support/common/include}"/>
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/FreeRTOS/include}"/>
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/FreeRTOS/portable}"/>
 									<listOptionValue builtIn="false" value="${workspace_loc:/${ProjName}/components/qpc/include}"/>

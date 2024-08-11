@@ -2,7 +2,7 @@
  * board.h
  *
  *  Created on: 9 Aug 2024
- *      Author: H255182
+ *      Author: Sicris
  */
 
 #ifndef COMPONENTS_BOARD_SUPPORT_BOARD_H_
