@@ -1,0 +1,48 @@
+menuconfig USE_ADC
+    bool "ADC"
+    default y
+
+    if USE_ADC
+        menu "Channel Configuration"
+            config ADC_IA
+                int "PhaseA Current"
+                range -1 15
+                default 11
+            config ADC_IB
+                int "PhaseB Current"
+                range -1 15
+                default 13
+            config ADC_IC
+                int "PhaseC Current"
+                range -1 15
+                default 5
+            config ADC_VA
+                int "PhaseA Voltage"
+                range -1 15
+                default 15
+            config ADC_VB
+                int "PhaseB Voltage"
+                range -1 15
+                default 14
+            config ADC_VC
+                int "PhaseC Voltage"
+                range -1 15
+                default 12
+            config ADC_VBUS
+                int "Bus Voltage"
+                range -1 15
+                default 7
+        endmenu # "Channel Configuration"
+        config FLOAT_VALUE_BASE_BUS_VOLTAGE
+            string "Base Bus Voltage"
+            default "236.14f"
+        config FLOAT_VALUE_BASE_PHASE_VOLTAGE
+            string "Base Phase Voltage"
+            default "236.14f"
+        config FLOAT_VALUE_BASE_PHASE_CURRENT
+            string "Base Phase Current"
+            default "10.0f"
+        config FLOAT_VALUE_BASE_BUS_CURRENT
+            string "Base Bus Current"
+            default "7.50f"
+    endif # USE_ADC

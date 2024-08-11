@@ -26,5 +26,6 @@ menu "Board Support"
 
 rsource "uart/Kconfig"
 rsource "epwm/Kconfig"
+rsource "adc/Kconfig"
 
 endmenu # Board Support
